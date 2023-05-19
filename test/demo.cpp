@@ -11,6 +11,14 @@
 std::atomic<int> barrier_flag;
 std::atomic<long int> space_count_temp = 0;
 
+void Concurrent_rw_test() {
+    barrier_flag = 0;
+    SpruceUniverse spruce;
+    ParallelInsert(spruce);
+    ParallelRead(spruce);
+    ParallelDelete(spruce);
+}
+
 bool ParallelRead(SpruceUniverse &spruce) {
     // randomly generate edges
     srand((int)time(NULL));
