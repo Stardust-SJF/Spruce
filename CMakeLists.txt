@@ -13,8 +13,8 @@ if(OPENMP_FOUND)
 endif()
 set(CMAKE_CXX_STANDARD 20)
 
-file(GLOB GAPBS "third_party/gapbs/src/*")
-add_library(BVGT STATIC src/index_algorithms.cpp src/memory_analysis.cpp graph_algorithms.cpp test.cpp ${GAPBS})
+#file(GLOB GAPBS "third_party/gapbs/src/*")
+add_library(spruce STATIC src/index_algorithms.cpp src/memory_analysis.cpp src/succinct_algorithms.cpp)
 
 add_executable(Spruce main.cpp
         src/memory_analysis.h src/memory_analysis.cpp
@@ -34,13 +34,14 @@ add_executable(Spruce main.cpp
 #        third_party/gapbs/src/cc_sv.cc
 #        third_party/gapbs/src/platform_atomics.cpp block_optimization.cpp block_optimization.h
         )
-target_link_libraries(GraphIndex
-        divsufsort
-        divsufsort64
-        numa
-        event
-        event_pthreads
+target_link_libraries(Spruce
+#        divsufsort
+#        divsufsort64
+#        numa
+#        event
+#        event_pthreads
+        pthread
         junction
         turf
-        /usr/local/lib/libtbb.so.12.7
+#        /usr/local/lib/libtbb.so.12.7
         )

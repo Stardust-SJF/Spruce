@@ -1262,6 +1262,7 @@ bool SpruceUniverse::get_neighbours(SpruceUniverse &spruce, const uint64_t from_
         if (!root) {
             root = SpruceUniverse::CreateTopBlock();
             spruce.spruce_hash.assign(hash_index,root);
+            spruce.fb_flag = 1;
         }
     }
     else {
