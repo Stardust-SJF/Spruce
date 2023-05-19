@@ -1,7 +1,7 @@
 # Spruce
 A Fast, Space-saving Structure for In-Memory Dynamic Graph Storage
 
-This demo of Spruce for ease of use, which support the following functions:
+This is a demo of Spruce for ease of use, which contains the core data structure of Spruce and supports the following apis:
 
 ### Basic Interface
 ```C++
