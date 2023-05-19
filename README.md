@@ -1,5 +1,4 @@
 # Spruce
-A Fast, Space-saving Structure for In-Memory Dynamic Graph Storage
 
 This is a demo of Spruce for ease of use, which contains the core data structure of Spruce and supports the following apis:
 
@@ -23,6 +22,6 @@ get_neighbours function gets all the adjacency edges of a vertex and return it u
 ```C++
 uint64_t GetDegree(SpruceUniverse &spruce, uint64_t from_node_id);
 ```
-Get a vertex's degree.
+GetDegree function gets a vertex's degree.
 
                                
