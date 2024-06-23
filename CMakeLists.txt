@@ -14,7 +14,7 @@ endif()
 set(CMAKE_CXX_STANDARD 20)
 
 #file(GLOB GAPBS "third_party/gapbs/src/*")
-add_library(spruce STATIC src/index_algorithms.cpp src/memory_analysis.cpp src/succinct_algorithms.cpp)
+add_library(spruce STATIC src/index_algorithms.cpp src/memory_analysis.cpp src/succinct_algorithms.cpp src/spruce_transaction.h src/spruce_transaction.cpp)
 
 add_executable(Spruce main.cpp
         src/memory_analysis.h src/memory_analysis.cpp
@@ -33,7 +33,7 @@ add_executable(Spruce main.cpp
 #        third_party/gapbs/src/cc_sv.h
 #        third_party/gapbs/src/cc_sv.cc
 #        third_party/gapbs/src/platform_atomics.cpp block_optimization.cpp block_optimization.h
-        )
+        src/spruce_transaction.h src/spruce_transaction.cpp)
 target_link_libraries(Spruce
 #        divsufsort
 #        divsufsort64

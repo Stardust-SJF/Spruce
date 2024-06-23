@@ -6,20 +6,28 @@
 //#include "third_party/gapbs/src/bfs.h"
 #define TEST_NUM 20000
 #define AVG_DEGREE 128
-#define BARRIER_NUM 1
+#define BARRIER_NUM 3
 
 std::atomic<int> barrier_flag;
 std::atomic<long int> space_count_temp = 0;
 
 void Concurrent_rw_test() {
     barrier_flag = 0;
-    SpruceUniverse spruce;
-    ParallelInsert(spruce);
-    ParallelRead(spruce);
-    ParallelDelete(spruce);
+//    SpruceTransVer spruce;
+    SpruceTransVer spruce;
+//    ParallelInsert(spruce);
+//    ParallelRead(spruce);
+//    ParallelDelete(spruce);
+
+    std::thread insert_edges(ParallelInsert, std::ref(spruce));
+    insert_edges.join();
+    std::thread read_neighbours(ParallelRead, std::ref(spruce));
+    read_neighbours.join();
+    std::thread delete_edges(ParallelDelete, std::ref(spruce));
+    delete_edges.join();
 }
 
-bool ParallelRead(SpruceUniverse &spruce) {
+bool ParallelRead(SpruceTransVer &spruce) {
     // randomly generate edges
     srand((int)time(NULL));
     std::vector<std::pair<uint32_t, uint32_t>> edges;
@@ -30,12 +38,12 @@ bool ParallelRead(SpruceUniverse &spruce) {
         edges.push_back(std::make_pair(from_node_id, to_node_id));
     }
     barrier_flag++;
-    while (barrier_flag < BARRIER_NUM);
+//    while (barrier_flag < BARRIER_NUM);
     double start = omp_get_wtime();
 #pragma omp parallel for num_threads(10)
     for (int i = 0; i < edges.size(); i++) {
-        std::vector<SpruceUniverse::WeightedOutEdge> neighbours;
-        SpruceUniverse::get_neighbours(spruce, edges[i].first, neighbours);
+        std::vector<SpruceTransVer::WeightedOutEdgeSimple> neighbours;
+        SpruceTransVer::get_neighbours(spruce, edges[i].first, neighbours);
     }
     double stop = omp_get_wtime();
     printf("Time consumption for reading %ld vertices:%lf s\n",edges.size(),
@@ -43,7 +51,7 @@ bool ParallelRead(SpruceUniverse &spruce) {
     return true;
 }
 
-bool ParallelInsert(SpruceUniverse &spruce) {
+bool ParallelInsert(SpruceTransVer &spruce) {
     srand((int)time(NULL));
     std::vector<std::pair<uint32_t, uint32_t>> edges;
     uint32_t to_node_id, from_node_id;
@@ -53,11 +61,11 @@ bool ParallelInsert(SpruceUniverse &spruce) {
         edges.push_back(std::make_pair(from_node_id, to_node_id));
     }
     barrier_flag++;
-    while (barrier_flag < BARRIER_NUM);
+//    while (barrier_flag < BARRIER_NUM);
     double start = omp_get_wtime();
 #pragma omp parallel for num_threads(10)
     for (int i = 0; i < edges.size(); i++) {
-        SpruceUniverse::InsertEdge(spruce, {edges[i].first, edges[i].second, 0.01});
+        SpruceTransVer::InsertEdge(spruce, {edges[i].first, edges[i].second, 0.01});
     }
     double stop = omp_get_wtime();
     printf("Time consumption for inserting %ld edges:%lf s\n",edges.size(),
@@ -65,7 +73,7 @@ bool ParallelInsert(SpruceUniverse &spruce) {
     return true;
 }
 
-bool ParallelDelete(SpruceUniverse &spruce) {
+bool ParallelDelete(SpruceTransVer &spruce) {
     srand((int)time(NULL));
     std::vector<std::pair<uint32_t, uint32_t>> edges;
     uint32_t to_node_id, from_node_id;
@@ -75,11 +83,11 @@ bool ParallelDelete(SpruceUniverse &spruce) {
         edges.push_back(std::make_pair(from_node_id, to_node_id));
     }
     barrier_flag++;
-    while (barrier_flag < BARRIER_NUM);
+//    while (barrier_flag < BARRIER_NUM);
     double start = omp_get_wtime();
 #pragma omp parallel for num_threads(10)
     for (int i = 0; i < edges.size(); i++) {
-        SpruceUniverse::DeleteEdge(spruce, edges[i].first, edges[i].second);
+        SpruceTransVer::DeleteEdge(spruce, edges[i].first, edges[i].second);
     }
     double stop = omp_get_wtime();
     printf("Time consumption for deleting %ld edges:%lf s\n",edges.size(),
