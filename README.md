@@ -1,6 +1,6 @@
 # Spruce
 
-Notice: This repository is outdated. We'll update it soon.
+
 
 This is a demo of Spruce for ease of use, which contains the core data structure of Spruce and supports the following APIs:
 
@@ -26,4 +26,5 @@ uint64_t GetDegree(SpruceUniverse &spruce, uint64_t from_node_id);
 ```
 The getDegree function gets a vertex's degree.
 
-                               
+### Basic Interface
+For experiments with GFE-Driver, please refer to [gfe_driver_spruce](https://github.com/Stardust-SJF/gfe_driver).
