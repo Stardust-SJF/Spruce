@@ -337,6 +337,9 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
         memset(bottom_head_block, 0, sizeof(SpruceTransVer::AdjSubsequentBlockOne));
         bottom_head_block->bitvector_64 = UINT64_MAX;
         bottom_head_block->type.store(1);
+        if(spruce.fb_flag){
+            bottom_head_block->fb_flag_log_size = 1 << 15;
+        }
 
         //Edit middle block bitmap and ptr block
         uint64_t temp = middle_block_ptr->ptr_to_children[ptr_block_index].load();
@@ -542,11 +545,11 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
 //                               (SpruceTransVer::AdjSubsequentBlockOne*)(temp),
 //                               sizeof(SpruceTransVer::AdjSubsequentBlockOne));
                         new_block->type = local_head_block_ptr->type.load();
-                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() | (0x01 << 15);
                         new_block->bitvector_64 = local_head_block_ptr->bitvector_64.load();
                         new_block->timestamp = local_head_block_ptr->timestamp.load();
                         for (int c = 0; c < ((1 << (type - 1)) * 4); c++) {
-                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex->des, local_head_block_ptr->adj_vertex->weight};
+                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex[c].des, local_head_block_ptr->adj_vertex[c].weight};
                         }
 
                         new_block->adj_vertex[insert_index] = out_edge;
@@ -564,11 +567,11 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
                         temp = (uint64_t)local_head_block_ptr;
                         //copy values
                         new_block->type = local_head_block_ptr->type.load();
-                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() | (0x01 << 15);
                         new_block->bitvector_64 = local_head_block_ptr->bitvector_64.load();
                         new_block->timestamp = local_head_block_ptr->timestamp.load();
                         for (int c = 0; c < ((1 << (type - 1)) * 4); c++) {
-                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex->des, local_head_block_ptr->adj_vertex->weight};
+                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex[c].des, local_head_block_ptr->adj_vertex[c].weight};
                         }
                         new_block->adj_vertex[insert_index] = out_edge;
                         new_block->type.store(3);
@@ -585,11 +588,11 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
                         temp = (uint64_t)local_head_block_ptr;
                         //copy values
                         new_block->type = local_head_block_ptr->type.load();
-                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() | (0x01 << 15);
                         new_block->bitvector_64 = local_head_block_ptr->bitvector_64.load();
                         new_block->timestamp = local_head_block_ptr->timestamp.load();
                         for (int c = 0; c < ((1 << (type - 1)) * 4); c++) {
-                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex->des, local_head_block_ptr->adj_vertex->weight};
+                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex[c].des, local_head_block_ptr->adj_vertex[c].weight};
                         }
                         new_block->adj_vertex[insert_index] = out_edge;
                         local_head_block_ptr->obsolete_flag = 1;
@@ -607,11 +610,11 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
                         memset(new_block, 0, sizeof(AdjSubsequentBlockFour));
                         //copy values
                         new_block->type = local_head_block_ptr->type.load();
-                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() | (0x01 << 15);
                         new_block->bitvector_64 = local_head_block_ptr->bitvector_64.load();
                         new_block->timestamp = local_head_block_ptr->timestamp.load();
                         for (int c = 0; c < ((1 << (type - 1)) * 4); c++) {
-                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex->des, local_head_block_ptr->adj_vertex->weight};
+                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex[c].des, local_head_block_ptr->adj_vertex[c].weight};
                         }
                         new_block->adj_vertex[insert_index] = out_edge;
                         local_head_block_ptr->obsolete_flag = 1;
@@ -628,11 +631,11 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
                         memset(new_block, 0, sizeof(AdjSubsequentBlockFive));
                         //copy values
                         new_block->type = local_head_block_ptr->type.load();
-                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+                        new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load()| (0x01 << 15);
                         new_block->bitvector_64 = local_head_block_ptr->bitvector_64.load();
                         new_block->timestamp = local_head_block_ptr->timestamp.load();
                         for (int c = 0; c < ((1 << (type - 1)) * 4); c++) {
-                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex->des, local_head_block_ptr->adj_vertex->weight};
+                            new_block->adj_vertex[c] = {local_head_block_ptr->adj_vertex[c].des, local_head_block_ptr->adj_vertex[c].weight};
                         }
                         new_block->adj_vertex[insert_index] = out_edge;
                         local_head_block_ptr->obsolete_flag = 1;
@@ -787,7 +790,7 @@ bool SpruceTransVer::InsertEdge(SpruceTransVer &spruce, SpruceTransVer::Weighted
             memset(new_block, 0, sizeof(AdjSubsequentBlockFive));
             //copy values
             new_block->type = local_head_block_ptr->type.load();
-            new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() & 0x7FFF;
+            new_block->fb_flag_log_size = local_head_block_ptr->fb_flag_log_size.load() | (0x01 << 15);
             new_block->bitvector_64.store(UINT64_MAX);
             new_block->timestamp = local_head_block_ptr->timestamp.load();
             local_head_block_ptr->obsolete_flag = 1;
