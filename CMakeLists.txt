@@ -1,9 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
 project(GraphIndex)
-include_directories("/mnt/wd_ultrastar_8TB/sjf/GraphIndex/Comparisons/teseo-master/include")
-include_directories("/usr/local/include/sdsl")
-include_directories("/usr/local/include/tbb/")
-include_directories("/usr/local/libevent/2_1_12/include/")
 
 FIND_PACKAGE( OpenMP REQUIRED)
 if(OPENMP_FOUND)

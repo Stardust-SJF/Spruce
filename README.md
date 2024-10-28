@@ -1,8 +1,17 @@
 # Spruce
 
+This is a demo of [Spruce](https://dl.acm.org/doi/10.1145/3639282) for ease of use, which contains the core data structure of Spruce and supports the following APIs:
 
+### Required Dependencies
 
-This is a demo of Spruce for ease of use, which contains the core data structure of Spruce and supports the following APIs:
+- [CMake](https://cmake.org/)
+- [Junction Hash](https://github.com/preshing/junction)
+
+### Compliation
+
+```shell
+cmake -DCMAKE_BUILD_TYPE=Release -G "CodeBlocks - Unix Makefiles" -S path/to/Spruce -B path/to/output/directory
+```
 
 ### Basic Interface
 ```C++
@@ -26,5 +35,5 @@ uint64_t GetDegree(SpruceUniverse &spruce, uint64_t from_node_id);
 ```
 The getDegree function gets a vertex's degree.
 
-### Basic Interface
+### Notes
 For experiments with GFE-Driver, please refer to [gfe_driver_spruce](https://github.com/Stardust-SJF/gfe_driver).
