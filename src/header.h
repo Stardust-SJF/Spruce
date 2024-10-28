@@ -29,6 +29,7 @@
 //#include <tbb/compat/thread>
 //#include <tbb/tbb_allocator.h> // zero_allocator defined here
 #include <junction/ConcurrentMap_Linear.h>
+#include <junction/ConcurrentMap_Leapfrog.h>
 //#include <tbb/atomic.h>
 #include <sys/types.h>
 #include <sys/time.h>

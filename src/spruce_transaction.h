@@ -205,7 +205,7 @@ public:
         return a.des < b.des;
     }
 
-    typedef junction::ConcurrentMap_Linear<turf::u32, TopBlock*> ConcurrentMap;
+    typedef junction::ConcurrentMap_Leapfrog<turf::u32, TopBlock*> ConcurrentMap;
     std::atomic<uint8_t> fb_flag; //4-B flag
     ConcurrentMap spruce_hash;
     TopBlock* top_block;
