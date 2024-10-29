@@ -1349,7 +1349,7 @@ bool SpruceTransVer::get_neighbours(SpruceTransVer &spruce, const uint64_t from_
             }
         } else {
             // check edge array
-            if (!local_head_block_ptr->next_block.load()) {
+            if (!local_head_block_ptr->next_block.load() || (local_head_block_ptr->type < 5)) {
                 return false;
             }
             else {
