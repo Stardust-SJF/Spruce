@@ -1419,7 +1419,7 @@ bool SpruceTransVer::get_neighbours(SpruceTransVer &spruce, const uint64_t from_
             }
         } else {
             // check edge array
-            if (!local_head_block_ptr_8b->next_block.load()) {
+            if (!local_head_block_ptr_8b->next_block.load() || (local_head_block_ptr_8b->type < 5)) {
                 return false;
             }
             else {
@@ -1634,7 +1634,7 @@ bool SpruceTransVer::get_neighbours_exclusively(SpruceTransVer &spruce, const ui
             }
         } else {
             // check edge array
-            if (!local_head_block_ptr_8b->next_block.load()) {
+            if (!local_head_block_ptr_8b->next_block.load() || (local_head_block_ptr_8b->type < 5)) {
                 return false;
             }
             else {
@@ -3880,7 +3880,7 @@ bool SpruceTransVer::get_neighbours_snapshot(SpruceTransVer &spruce, const uint6
             }
         } else {
             // check edge array
-            if (!local_head_block_ptr_8b->next_block.load()) {
+            if (!local_head_block_ptr_8b->next_block.load() || (local_head_block_ptr_8b->type < 5)) {
                 return false;
             }
             else {
